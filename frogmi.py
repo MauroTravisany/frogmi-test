@@ -53,42 +53,65 @@ collection_incidents = [
 class Store():
         
     data_filtrada= []
-     
-    def __init__(self, dateinitial, datefinal):
+    __empty:True
+    
+    def __init__(self, dateinitial: 'datetime', datefinal: 'datetime')->'list':
         date_now = datetime.now()
-        dateinitial, datefinal = datetime.strptime(dateinitial,'%d-%m-%Y'), datetime.strptime(datefinal,'%d-%m-%Y')
-        for x in collection_incidents:
-            if x["date_finish"] == None :
-                x["date_finish"] = date_now.strftime('%d-%m-%Y')
-                x["hour_finish"] = date_now.strftime('%H:%M')
-        filtrado = list(filter(lambda x: datetime.strptime(x['date_beggin'],'%d-%m-%Y')  >= dateinitial and datetime.strptime(x['date_finish'],'%d-%m-%Y') <= datefinal, collection_incidents ))
-        self.data_filtrada = filtrado
+        try:
+            dateinitial, datefinal = datetime.strptime(dateinitial,'%d-%m-%Y'), datetime.strptime(datefinal,'%d-%m-%Y')
+            date_min, date_max = set(), set()
+            for x in collection_incidents:
+                date_min.add(x["date_beggin"])
+                if x["date_finish"] == None :
+                    x["date_finish"] = date_now.strftime('%d-%m-%Y')
+                    x["hour_finish"] = date_now.strftime('%H:%M')
+                date_max.add(x["date_finish"])
+            filtrado = list(filter(lambda x: datetime.strptime(x['date_beggin'],'%d-%m-%Y')  >= dateinitial and datetime.strptime(x['date_finish'],'%d-%m-%Y') <= datefinal, collection_incidents ))
+            if filtrado == []:
+                self.__empty = True
+                print("las fechas que ingreso no estan dentro de los plazos registrados en el sistema.")
+                print("El mínimo plazo corresponde a %s y el plazo máximo corresponde a %s" % (min(date_min),max(date_max)))
+            else:
+                self.__empty = False
+                self.data_filtrada = filtrado
+        except ValueError:
+            print("El formato ingresado de fechas esta incorrecto, verifique que cada fecha corresponda a dd-mm-año")
 
     def max_result(self):
-        list_hour_total =[]  
-        hours_begginfinal_total = list(map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"]), self.data_filtrada))
-        self.transform_to_dt(list_hour_total,hours_begginfinal_total)
-        maximum = max(list_hour_total)
-        return(maximum)
+        list_hour_total =[]
+        if self.__empty == False:  
+            hours_begginfinal_total = list(map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"]), self.data_filtrada))
+            self.transform_to_dt(list_hour_total,hours_begginfinal_total)
+            maximum = max(list_hour_total)
+            return(maximum)
+        else:
+            return None
     
     def average_result(self):
         list_hour_solved =[]
-        hours_begginfinal_solved = list(filter(None,map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"])  if x["status"] == "solved" else None, self.data_filtrada)))
-        self.transform_to_dt(list_hour_solved,hours_begginfinal_solved)
-        average = sum(list_hour_solved)/len(list_hour_solved)
-        return average
+        if self.__empty == False:  
+            hours_begginfinal_solved = list(filter(None,map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"])  if x["status"] == "solved" else None, self.data_filtrada)))
+            self.transform_to_dt(list_hour_solved,hours_begginfinal_solved)
+            average = sum(list_hour_solved)/len(list_hour_solved)
+            return average
+        else:
+            return None
         
     def incident_status(self):
-        open_cases, solved_cases = sum([m["status"] == "open" for m in self.data_filtrada]), sum([m["status"] == "solved" for m in self.data_filtrada])
-        status = {'open_cases': open_cases, 'solved_cases': solved_cases, 'average_solution': self.average_result(), 'maximum_solution': self.max_result()}
-        print(status)
-        return status
-    
-    def transform_to_dt(self, list_return, data): 
+        if self.__empty == False:  
+            open_cases, solved_cases = sum([m["status"] == "open" for m in self.data_filtrada]), sum([m["status"] == "solved" for m in self.data_filtrada])
+            status = {'open_cases': open_cases, 'solved_cases': solved_cases, 'average_solution': self.average_result(), 'maximum_solution': self.max_result()}
+            print(status)
+            return status
+        else:
+            return print("No hay datos para las fechas ingresadas en la instancia")
+        
+    @staticmethod
+    def transform_to_dt(list_return: 'list' = [], data:'list' = []) -> 'list':
         for beggin,final in data:
             beggin,final = datetime.strptime(beggin,'%d-%m-%Y %H:%M'), datetime.strptime(final,'%d-%m-%Y %H:%M')
             list_return.append(((final-beggin).total_seconds())/3600)
         return list_return
     
-store = Store("18-04-2022", "23-04-2022")
+store = Store("19-04-2022", "22-04-2022")
 store.incident_status()
