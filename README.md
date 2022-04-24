@@ -1,26 +1,17 @@
 # frogmi-test
 Pequeño programa para demostrar mis habilidades tecnicas
-CODING PROBLEM
 
-Construct a simple Store class that has a collection of Incidents and an "incident_status" method.
+Para ejecutar el programa es necesario crear una variable y asignar la Clase "Store" a la vez indicar las fechas en las cuales se requiere solicitar información:
 
-An Incident is something that happens in the store that must be reported and solved, for example “the floor in the fruit area is dirty” and someone needs to clean it (this is the action needed to solve it). Also an Incident has an status that can be “open” if the incident has been reported but not solved or “solved” if the case has been solved.
+- Es importante recalcar que las fechas tienen que estar entre comillas y tener el formato "dd-mm-año" -
 
-The incident_status method of the Store class receives 2 dates and returns the following:
-- The number of “open” cases between those dates.
-- The number of “solved” cases between those dates.
-- The average solution time between those dates (include only the solved cases).
-- The current maximum solution time between those dates (include open cases using the current time).
+Cómo por ejemplo:
 
-Include automatic testing and documentation in a README file explaining how to use the classes, how to run the test and anything else you think is useful.
+store = Store("19-04-2022", "22-04-2022")
 
-Upload your code to Github (or any Git repository you want) and send us the link where we can clone your repository.
 
-An example for the execution of the method incident_status can be:
+Al ejecutar el comando existen 3 mensajes que puede llegar a obtener:
+    - Instancia creada correctamente.
+    - El formato ingresado de fechas esta incorrecto, verifique que cada fecha corresponda a dd-mm-año.
+    - Las fechas que ingreso no estan dentro de los plazos registrados en el sistema.
 
->> # some_store is an already initialized Store class with
->> # associated Incidents in different status
->> some_store.incident_status()
->> {'open_cases': 4,'closed_cases': 10, 'average_solution': 12, 'maximum_solution': 48}
-
-You can use any programming language you want.

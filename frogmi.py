@@ -54,6 +54,7 @@ class Store():
         
     data_filtrada= []
     __empty:True
+    mensaje: str()
     
     def __init__(self, dateinitial: 'datetime', datefinal: 'datetime')->'list':
         date_now = datetime.now()
@@ -69,14 +70,22 @@ class Store():
             filtrado = list(filter(lambda x: datetime.strptime(x['date_beggin'],'%d-%m-%Y')  >= dateinitial and datetime.strptime(x['date_finish'],'%d-%m-%Y') <= datefinal, collection_incidents ))
             if filtrado == []:
                 self.__empty = True
-                print("las fechas que ingreso no estan dentro de los plazos registrados en el sistema.")
+                self.mensaje = "las fechas que ingreso no estan dentro de los plazos registrados en el sistema."
+                print(self.mensaje)
                 print("El mínimo plazo corresponde a %s y el plazo máximo corresponde a %s" % (min(date_min),max(date_max)))
             else:
                 self.__empty = False
                 self.data_filtrada = filtrado
+                self.mensaje ="Instancia creada correctamente"
+                print(self.mensaje)
         except ValueError:
-            print("El formato ingresado de fechas esta incorrecto, verifique que cada fecha corresponda a dd-mm-año")
+            self.mensaje ="El formato ingresado de fechas esta incorrecto, verifique que cada fecha corresponda a dd-mm-año"
+            print(self.mensaje)
+    
+    def __str__(self): 
+            return self.mensaje
 
+    
     def max_result(self):
         list_hour_total =[]
         if self.__empty == False:  
@@ -113,5 +122,6 @@ class Store():
             list_return.append(((final-beggin).total_seconds())/3600)
         return list_return
     
-store = Store("19-04-2022", "22-04-2022")
-store.incident_status()
+
+a = Store("21-04-2022", "19-04-2022")
+a.incident_status()
