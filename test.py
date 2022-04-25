@@ -19,21 +19,21 @@ def random_date(start, end, prop):
 
 
 
-
 class TestDates(unittest.TestCase):
 
     def setUp(self):
         print("Preparando el contexto")
-        self.fecha_beggin, self.fecha_finish = "18-04-2022", "25-04-2022"
+        self.fecha_beggin, self.fecha_finish = "19-04-2022", "24-04-2022"
         self.date_random_beggin = random_date(self.fecha_beggin, self.fecha_finish, random.random())
         self.date_random_final = random_date(self.fecha_beggin, self.fecha_finish, random.random())
         print(" fecha 1 :%s,  fecha 2 %s"%(self.date_random_beggin, self.date_random_final) )
 
-    def test(self):
+    def test_date(self):
         print("Realizando una prueba")
-        a = Store(self.date_random_beggin,self.date_random_final)
-        self.assertEqual("Instancia creada correctamente", str(a))
-
+        self.store = Store(self.date_random_beggin,self.date_random_final)
+        self.assertEqual("Instancia creada correctamente", str(self.store))
+        
+        
     def tearDown(self):
         print("Destruyendo el contexto")
         del(self.date_random_beggin)

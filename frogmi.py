@@ -122,6 +122,3 @@ class Store():
             list_return.append(((final-beggin).total_seconds())/3600)
         return list_return
     
-
-a = Store("21-04-2022", "19-04-2022")
-a.incident_status()
