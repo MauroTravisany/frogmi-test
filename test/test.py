@@ -1,6 +1,8 @@
 import unittest
-from frogmi import Store
-
+import sys,os
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, BASE)
+import frogmi
 import random
 import time
     
@@ -30,7 +32,7 @@ class TestDates(unittest.TestCase):
 
     def test_date(self):
         print("Realizando una prueba")
-        self.store = Store(self.date_random_beggin,self.date_random_final)
+        self.store = frogmi.Store(self.date_random_beggin,self.date_random_final)
         self.assertEqual("Instancia creada correctamente", str(self.store))
         
         
