@@ -1,4 +1,5 @@
 from cgi import test
+from importlib.abc import ResourceLoader
 import sys,os
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE)
@@ -8,28 +9,36 @@ from datetime import datetime
 
 class Controler:
     
-    def get_data(self):
+    def __init__(self) -> None:
+        self.data = self.get_data_incidents()
+    
+    def get_data_incidents(self):
         self.data = collection_incidents
         return self.data
     
-    def add_data(self,store_id,location_id,date_beggin,date_finish,status, hour_beggin,hour_finish, comment):
-        data = self.get_data()
+    def add_data_incidents(self,store_id,location_id,date_beggin,date_finish,status, hour_beggin,hour_finish, comment):
         try:
             date_beggin, date_finish = datetime.strptime(date_beggin, '%d-%m-%Y'), datetime.strptime(date_finish, '%d-%m-%Y')
-            hour_beggin, hour_finish = datetime.strptime(hour_beggin, '%H:%M')
-            data.append({"store_id":store_id , "location_id":location_id, "date_beggin":date_beggin, "date_finish":date_finish, "status": status, "hour_beggin": hour_beggin, "hour_finish": hour_finish, "comment":comment})
+            hour_beggin, hour_finish = datetime.strptime(hour_beggin, '%H:%M'),datetime.strptime(hour_finish, '%H:%M')
+            self.data.append({"store_id":store_id , "location_id":location_id, "date_beggin":str(date_beggin.strftime('%d-%m-%Y')), "date_finish":str(date_finish.strftime('%d-%m-%Y')), "status": status, "hour_beggin": str(hour_beggin.strftime('%H:%M')), "hour_finish": str(hour_finish.strftime('%H:%M')), "comment":comment})
         except ValueError:
             print("Fechas invalidas, favor de revisar que las fechas esten en el formato correcto: dd-mm-yy")
     
-    def modify_data(self):
-        pass
+    def del_data_incident(self, store_id, location_id, date_beggin,date_finish,status, hour_beggin,hour_finish ):
+        try:
+            date_beggin, date_finish = datetime.strptime(date_beggin, '%d-%m-%Y'), datetime.strptime(date_finish, '%d-%m-%Y')
+            hour_beggin, hour_finish = datetime.strptime(hour_beggin, '%H:%M'),datetime.strptime(hour_finish, '%H:%M')
+            data_whitout_incident = [i for i in self.data if not (i['store_id'] == store_id and i['location_id'] == location_id and i['date_beggin']==str(date_beggin.strftime('%d-%m-%Y')) and i['date_finish']==str(date_finish.strftime('%d-%m-%Y')) and i['status']==status and i['hour_beggin']==str(hour_beggin.strftime('%H:%M')) and i['hour_finish']==str(hour_finish.strftime('%H:%M'))) ]
+            self.data = data_whitout_incident
+            return self.data
+        except ValueError:
+            print("Datos invalidos, favor de revisar que las fechas esten en el formato correcto: dd-mm-yy")
     
-    def get_filtrado(self,dateinitial, datefinal):
+    def get_filtrado_incidents(self,dateinitial, datefinal):
         date_now = datetime.now()
         try:
             dateinitial, datefinal = datetime.strptime(dateinitial,'%d-%m-%Y'), datetime.strptime(datefinal,'%d-%m-%Y')
             date_min, date_max = set(), set()
-            self.get_data()
             for x in self.data:
                 date_min.add(x["date_beggin"])
                 if x["date_finish"] == None :

@@ -34,7 +34,7 @@ class Store():
     
     def __init__(self, dateinitial: 'datetime', datefinal: 'datetime')->'list':
         controler = controler_class.Controler()
-        filtrado, date_min, date_max, msj = controler.get_filtrado(dateinitial,datefinal)
+        filtrado, date_min, date_max, msj = controler.get_filtrado_incidents(dateinitial,datefinal)
         if filtrado == []:
                 self.__empty = True
                 self.mensaje = "Las fechas que ingreso no estan dentro de los plazos registrados en el sistema."
