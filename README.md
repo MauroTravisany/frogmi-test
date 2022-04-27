@@ -16,7 +16,7 @@ Para ejecutar el programa es necesario instanciar una variable y asignar la Clas
 
 Cómo, por ejemplo:
 
-    store = Store("19-04-2022", "21-04-2022")ls
+    store = Store("19-04-2022", "21-04-2022")
 
 - También es importante recalcar que se ingresa como primera fecha el inicio y segunda fecha el final del periodo a buscar.
 
@@ -38,11 +38,12 @@ Es necesario llamar al metodo incident_status(), de esta manera:
 
 Entregando como resultado un diccionario con las variables open_cases, solved_case, average_solution, maximum_solution:
  
+
     #{'open_cases': 0, 'solved_cases': 5, 'average_solution': 1.4, 'maximum_solution': 2.0}
 
 
 
-    /////////////////////////////////////////    Especificaciones de clases /////////////////////////////////////////
+/////////////////////////////////////////    Especificaciones de clases /////////////////////////////////////////
 
 Profundizando más en la clase Store, es posible visualizar que contiene diferentes atributos:
 

@@ -55,20 +55,18 @@ class Store():
 
     
     def max_result(self):
-        list_hour_total =[]
         if self.__empty == False:  
             hours_begginfinal_total = list(map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"]), self.data_filtrada))
-            self.transform_to_dt(list_hour_total,hours_begginfinal_total)
+            list_hour_total =self.transform_to_dt(hours_begginfinal_total)
             maximum = max(list_hour_total)
             return(maximum)
         else:
             return None
     
     def average_result(self):
-        list_hour_solved =[]
         if self.__empty == False:  
             hours_begginfinal_solved = list(filter(None,map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"])  if x["status"] == "solved" else None, self.data_filtrada)))
-            self.transform_to_dt(list_hour_solved,hours_begginfinal_solved)
+            list_hour_solved =self.transform_to_dt(hours_begginfinal_solved)
             average = sum(list_hour_solved)/len(list_hour_solved)
             return average
         else:
@@ -84,9 +82,11 @@ class Store():
             return print("No hay datos para las fechas ingresadas en la instancia o fueron mal ingresadas las fechas")
         
     @staticmethod
-    def transform_to_dt(list_return: 'list' = [], data:'list' = []) -> 'list':
-        for beggin,final in data:
-            beggin,final = datetime.strptime(beggin,'%d-%m-%Y %H:%M'), datetime.strptime(final,'%d-%m-%Y %H:%M')
-            list_return.append(((final-beggin).total_seconds())/3600)
+    def transform_to_dt( data:'list' = []) -> 'list':
+        list_return =[((( datetime.strptime(final,'%d-%m-%Y %H:%M')-datetime.strptime(beggin,'%d-%m-%Y %H:%M')).total_seconds())/3600) for beggin,final in data]
         return list_return
     
+
+
+a = Store("19-04-2022", "21-04-2022")
+a.incident_status()
