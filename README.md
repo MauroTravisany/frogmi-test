@@ -4,8 +4,8 @@ Pequeño programa para demostrar mis habilidades técnicas
 Este programa se puede diversificar en 4 ramas.
 
 - Primero existe el programa principal frogmy.py que se encarga de cumplir la funcionalidad del sistema, obtener el diccionario con el estado de los incidentes.
-- Segundo existe la carpeta resources, que en este caso tiene un archivo.py que almacena unas variables con datos referente a los incidentes.
-- Tercero existe la carpeta controler, la cual posee un programa capaz de manejar todos los datos del sistema, se encarga tanto de obtener, agregar o filtrar datos.
+- Segundo existe la carpeta resources, que en este caso tiene un archivo python llamado data.py que almacena unas variables con datos referente a los incidentes.
+- Tercero existe la carpeta controler, la cual posee un programa capaz de manejar todos los datos del sistema, se encarga tanto de obtener, agregar, eliminar o filtrar datos.
 - Cuarto existe la carpeta test, en esta carpeta se obtienen diversos test unitarios para corroborar que el sistema se este ejecutando correctamente.
 
 /////////////////////////////////////////    Ejecución programa /////////////////////////////////////////
@@ -65,7 +65,7 @@ Respecto a los métodos utilizados se pueden verificar 6 en la clase Store:
 - incident_status(self)
 - transform_to_dt(list_return,data)
 
-El metodo inicial __init__ recibe dos parámetros aparte de self, los cuales corresponden a la fecha inicial y terminal indicada por el usuario. Este método se encarga de llamar a un método de la clase controlador que se encargad e filtrar los datos retornando data_filtrada, las fechas mínimas de incidentes, la fechas máximas de incidentes y un mensaje.
+El metodo inicial __init__ recibe dos parámetros aparte de self, los cuales corresponden a la fecha inicial y de termino indicada por el usuario. Este método se encarga de llamar a un método de la clase controlador que se encarga de filtrar los datos retornando data_filtrada, las fechas mínimas de incidentes, la fechas máximas de incidentes y un mensaje.
 
 El metodo __str__ recibe parámetro self y retorna un mensaje dependiendo del comportamiento del sistema, ya creada la instancia se puede realizar un print(store) y se visualizará un mensaje.
 
@@ -76,8 +76,8 @@ average_result(self) es un método el cual retorna el promedio en tiempo de todo
 incident_status(self) ya se ha mencionado anteriormente su retorno, pero cabe destacar que utiliza los dos métodos anteriores -max_result y average_result- para obtener los resultados deseados.
 
 
-transform_to_dt(list_return,data) es un método que es utilizado tanto para average_result y average_result, este método recibe un list_return y una variable data, el list result  corresponde a una lista vacía  y la variable data corresponde una lista con string indicando el inicio y final de una 
-incidencia; Este método convierte los string en objetos date y calcula las horas  entre ambos días, registrándolo en la variable list_return.
+transform_to_dt(data) es un método que es utilizado tanto para average_result y average_result, este método recibe una variable data, esta variable corresponde a una lista indicando el inicio y final de cada una de las 
+incidencias; Este método convierte los string en objetos date y calcula las horas entre ambos días, registrándolo en la variable list_return.
 
 
 Por otro lado, Existe la clase Controler ubicado en la carpeta controler/controler_data.py. Esta clase se caracteiza por el manejo de datos.

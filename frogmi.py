@@ -33,6 +33,7 @@ class Store():
     mensaje: str()
     
     def __init__(self, dateinitial: 'datetime', datefinal: 'datetime')->'list':
+        # La clase store parte inicializada con los datos filtrados entre fechas
         controler = controler_class.Controler()
         filtrado, date_min, date_max, msj = controler.get_filtrado_incidents(dateinitial,datefinal)
         if filtrado == []:
@@ -55,6 +56,7 @@ class Store():
 
     
     def max_result(self):
+        # resultado maximo en un periodo de horas
         if self.__empty == False:  
             hours_begginfinal_total = list(map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"]), self.data_filtrada))
             list_hour_total =self.transform_to_dt(hours_begginfinal_total)
@@ -64,6 +66,7 @@ class Store():
             return None
     
     def average_result(self):
+        # Promedio de un periodo de horas 
         if self.__empty == False:  
             hours_begginfinal_solved = list(filter(None,map(lambda x:(x["date_beggin"]+" "+x["hour_beggin"], x["date_finish"]+" "+x["hour_finish"])  if x["status"] == "solved" else None, self.data_filtrada)))
             list_hour_solved =self.transform_to_dt(hours_begginfinal_solved)
@@ -73,6 +76,7 @@ class Store():
             return None
         
     def incident_status(self):
+        # Retorna el estado de los incidentes 
         if self.__empty == False:  
             open_cases, solved_cases = sum([m["status"] == "open" for m in self.data_filtrada]), sum([m["status"] == "solved" for m in self.data_filtrada])
             status = {'open_cases': open_cases, 'solved_cases': solved_cases, 'average_solution': self.average_result(), 'maximum_solution': self.max_result()}
@@ -83,10 +87,7 @@ class Store():
         
     @staticmethod
     def transform_to_dt( data:'list' = []) -> 'list':
+        #Resta un periodo de tiempo dia 2 - dia 1 retornando las cantidades de horas transcurridas
         list_return =[((( datetime.strptime(final,'%d-%m-%Y %H:%M')-datetime.strptime(beggin,'%d-%m-%Y %H:%M')).total_seconds())/3600) for beggin,final in data]
         return list_return
     
-
-
-a = Store("19-04-2022", "21-04-2022")
-a.incident_status()
