@@ -1,5 +1,5 @@
 # frogmi-test
-Pequeño programa para demostrar mis habilidades técnicas
+Pequeño programa para demostrar mis habilidades técnicas - El enunciado del problema se puede visualizar comentado en el archivo frogmy.py -
 
 Este programa se puede diversificar en 4 ramas.
 

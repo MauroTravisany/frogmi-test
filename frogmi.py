@@ -83,7 +83,9 @@ class Store():
             print(status)
             return status
         else:
-            return print("No hay datos para las fechas ingresadas en la instancia o fueron mal ingresadas las fechas")
+            msj = "No hay datos para las fechas ingresadas en la instancia o fueron mal ingresadas las fechas"
+            print(msj)
+            return msj
         
     @staticmethod
     def transform_to_dt( data:'list' = []) -> 'list':
